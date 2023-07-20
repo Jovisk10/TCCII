@@ -7,6 +7,7 @@ from functions_img import brighten_img, threshold_img, contrast_img, sobel_img, 
 from functions_webcam import threshold_webcam, brighten_webcam, contrast_webcam, sobel_webcam, canny_webcam
 from matplotlib import pyplot as plt
 
+
 st.set_page_config(layout="wide") #Deixando a página no modo wide por default
 
 def main_loop():

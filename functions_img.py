@@ -7,34 +7,59 @@ from matplotlib import pyplot as plt
 #Definição as funções utilizadas para realizar o processamento das imagens
 
 def brighten_img(image, value): #Função de brilho em imagem estática
-    img_bright = cv.convertScaleAbs(image, beta=value)
+    img_bright = cv.convertScaleAbs(image, beta=value, alpha=1)
     return img_bright
 
 def threshold_img(image, value):# Função de Limiarização em imagem estática
-    cv2image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    ret, img_out = cv.threshold(cv2image, value, 255, cv.THRESH_BINARY)
+    ret, img_out = cv.threshold(image, value, 255, cv.THRESH_BINARY)
     img = Image.fromarray(img_out)
     return img
 
 def contrast_img(image, value): #Função de Contraste em imagem estática
-    cv2image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-    img_contrast = cv.convertScaleAbs(cv2image, alpha=value/100, beta=0)
-    img = Image.fromarray(img_contrast)
-    return img
+    img_contrast = cv.convertScaleAbs(image, alpha=value, beta=0)
+    return img_contrast
 
-def sobel_img(image, value1, value2):
-    cv2image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    img_sobelxy = cv.Sobel(src=cv2image, ddepth=cv.CV_64F, dx=value1, dy=value2, ksize=5)
-    #img_sobelxy = cv2.addWeighted(img_sobelx, 0.5, img_sobely, 0.5, 0)
-    img = Image.fromarray(img_sobelxy)
+def sobel_img(image, value1, value2, component):
+    if component == 'x':
+        img_sobel = cv.Sobel(img,cv.CV_64F, value1, 0, ksize=5) 
+    elif component == 'y':
+        img_sobel = cv.Sobel(img,cv.CV_64F, 0, value2, ksize=5) 
+    elif component == 'xy':
+        img_sobel = cv.Sobel(src=image, ddepth=cv.CV_64F, dx=value1, dy=value2, ksize=7)
+    img = Image.fromarray(img_sobel)
     img = img.convert("L")
     return img
 
 def canny_img(image, value1, value2):
-    cv2image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    img_canny = cv.Canny(cv2image, value1, value2)
+    img_canny = cv.Canny(image, value1, value2)
     img = Image.fromarray(img_canny)
     return img
+
+def channel_rgb(image, channel):
+    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+    canalAzul, canalVerde, canalVermelho = cv.split(image)
+
+    if channel == 'b':
+        return canalAzul
+    
+    elif channel == 'g':
+        return canalVerde
+    
+    elif channel == 'r':
+        return canalVermelho
+
+def channel_ycbcr(image, channel):
+    image = cv.cvtColor(image, cv.COLOR_BGR2YCrCb)
+    canaly, canalcr, canalcb = cv.split(image)
+
+    if channel == 'y':
+        return canaly
+    
+    elif channel == 'cb':
+        return canalcb
+    
+    elif channel == 'cr':
+        return canalcr
 
 def histogram_img(img):
     return plt.hist(img.ravel(), 256, [0,255])
@@ -43,7 +68,7 @@ def histogram_fn(image):
     def myfunc(x):
         return hasattr(x, 'set_color') and not hasattr(x, 'set_facecolor')
 
-    fig = plt.figure(figsize=(5,5), facecolor='#0E1117')
+    fig = plt.figure(figsize=(3,3), facecolor='#0E1117')
     ax = plt.axes()
     ax.set_facecolor("#0E1117")
     plt.xlabel('Níveis de intensidade dos pixels')
@@ -52,10 +77,10 @@ def histogram_fn(image):
     for o in fig.findobj(myfunc):
         o.set_color('white')
 
-    plt.rcParams['xtick.labelsize'] = 8
-    plt.rcParams['ytick.labelsize'] = 8
+    plt.rcParams['xtick.labelsize'] = 5
+    plt.rcParams['ytick.labelsize'] = 5
     plt.grid(False)
 
-    gray =  cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    plt.hist(gray.ravel(), 256, [0,255])
-    return st.pyplot(fig)
+    #gray =  cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+    plt.hist(image.ravel(), 256, [0,255])
+    return st.pyplot(fig, use_container_width=False)

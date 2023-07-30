@@ -1,5 +1,5 @@
-from functions_img import brighten_img, threshold_img, contrast_img, sobel_img, canny_img, histogram_img, histogram_fn, channel_rgb, channel_ycbcr
-from functions_webcam import threshold_webcam, brighten_webcam, contrast_webcam, sobel_webcam, canny_webcam, channel_rgb_w, channel_ycbcr_w, gray_scale, img_webcam
+from functions.functions_img import brighten_img, threshold_img, contrast_img, sobel_img, canny_img, histogram_img, histogram_fn, channel_rgb, channel_ycbcr
+from functions.functions_webcam import threshold_webcam, brighten_webcam, contrast_webcam, sobel_webcam, canny_webcam, channel_rgb_w, channel_ycbcr_w, gray_scale, img_webcam
 import streamlit as st
 import base64
 from PIL import Image

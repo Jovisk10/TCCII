@@ -34,7 +34,7 @@ def brighten_webcam(image, frame, value): #Função de brilho em imagem de víde
 def contrast_webcam(image, frame, value): #Função de Contraste em imagem estática
 
     img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2GRAY)
-    img_contrast = cv2.convertScaleAbs(img_out, alpha=value/100, beta=0)
+    img_contrast = cv2.convertScaleAbs(img_out, alpha=value)
     img_out = Image.fromarray(img_contrast)
     return frame.image(img_out, width=550)
 

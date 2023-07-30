@@ -1,32 +1,77 @@
-Informações básicas de um bom README.md
-1. Título do projeto
+# PDI App
 
-Dar um nome para o seu projeto é importante para que tornemos esse projeto real. Mesmo que ele seja algo para estudo, um projeto fictício, ao darmos um nome para o projeto conseguimos torná-lo concreto e então conseguimos "vendê-lo" para qualquer pessoa que nos perguntar sobre tal projeto.
+## 1. Descrição do projeto
 
-2. Descrição do projeto
+O PDI APP é uma ferramenta que visa exemplificar diversas formatos e técnicas aplicadas a imagens que são estudadas na disciplina de Processamento digital de imagens, assim pretendendo facilitar o entendimento de como processamento de imagens ocorre de forma prática.
 
-Dedique uma parte do seu README para explicar qual é o objetivo desse projeto, o seu propósito e quais motivos você o criou.
+## 2. Funcionalidades do projeto
 
-3. Funcionalidades do projeto
+O PDI App contem as seguindes funcionalidades:
 
-Enumere o que existe no seu projeto, quais são as suas funcionalidades e quais páginas o projeto.
+#### Aquisição de imagens
 
-4. Tecnologias utilizadas
+- Estáticas (realizando o upload da imagem desejada)
+- Dinâmicas (realizando a leitura de video da webcam)
 
-Descreva quais ferramentas e tecnologias foram usadas no seu projeto, desde bibliotecas, frameworks, linguagens, IDEs e qualquer outra coisa essencial para a sua criação e funcionamento.
+#### Visualização nos fomatos:
 
-5. Inicialização
+- Escala de cinza
+- RGB
+- YCbCr
 
-Informe para quem visitar o seu repositório como inicializar o seu projeto após o git clone, se é necessário rodar um npm ou se precisa instalar alguma dependência na máquina local.
+#### Técnicas estudadas:
 
-6. Implementações futuras
+- Limiarização
+- Brilho e Contraste (Com visualização do histograma para imagens estáticas)
+- Detecção de bordas pelos operadores de Canny e Sobel
 
-Se esse projeto é um trabalho em andamento, informe quais serão os próximos passos e o que você deseja implementar nas próximas sprints.
+## 3. Tecnologias utilizadas
 
-7. Colaboradores
+Para o desenvolvimento dessa ferramenta foram utilziadas as seguintes tecnologias:
 
-Se esse projeto foi criado em grupo ou teve algum tipo de colaboração informe quem foram as pessoas que estão contribuindo, deixando também o link do GitHub e/ou do LinkedIn dessa equipe.
+#### Interface Web 
 
-8. Status do projeto
+- Streamlit
 
-Informe se esse projeto está em andamento ou se está concluído.
+#### Processamento das imagens
+
+- OpenCV
+- Pillow
+
+#### Visualização do histograma
+
+- Matplotlib
+- Numpy
+
+## 4. Inicialização
+
+A ferramenta pode ser inicializada de 3 formas diferentes:
+
+### Clonando o projeto no github  (Deve-se ter o git instalado)
+
+Via cmd windowns
+
+```git clone https://github.com/Jovisk10/TCCII.git ``` 
+
+Dentro da pasta pdi_tool
+
+```pip install -r requirements.txt```  
+
+
+```streamlit run pdi_app.py``` 
+
+### Acesse através do link 
+
+ -- Deixar o link disponivel aqui --
+
+### Instale a través do aquivo .bat 
+
+-- Tentar gerar esse arquivo .bat
+
+## 5. Colaboradores
+
+Ferramenta desenvolvida por João Vitor da Silva Campos como trabalho de conclusão de curso de Engenharia Elétrica sob orientação do professor Jozias Parente na Universidade do Estado do Amazonas
+
+## 7. Status do projeto
+
+Projeto em andamento.

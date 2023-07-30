@@ -18,10 +18,6 @@ def gray_scale(image, frame):
 
 def threshold_webcam(image, frame, value):# Função de Limiarização em imagem de vídeo
 
-    # if scale == 'Escala de Cinza':
-    #     img_in = img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2GRAY)
-    # else:
-    #     img_in = img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2RGB)
     img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2GRAY)
     ret, image_bin = cv2.threshold(img_out, value, 255, cv2.THRESH_BINARY)
     img_out = Image.fromarray(image_bin)
@@ -29,10 +25,6 @@ def threshold_webcam(image, frame, value):# Função de Limiarização em imagem
 
 def brighten_webcam(image, frame, value): #Função de brilho em imagem de vídeo
 
-    # if scale == 'Escala de Cinza':
-    #     img_in = img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2GRAY)
-    # else:
-    #     img_in = img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2RGB)
     img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2GRAY)
     img_bright = cv2.convertScaleAbs(img_out, alpha=1, beta=value)
     img_out = Image.fromarray(img_bright)
@@ -41,33 +33,30 @@ def brighten_webcam(image, frame, value): #Função de brilho em imagem de víde
 
 def contrast_webcam(image, frame, value): #Função de Contraste em imagem estática
 
-    # if scale == 'Escala de Cinza':
-    #     img_in = img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2GRAY)
-    # else:
-    #     img_in = img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2RGB)
     img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2GRAY)
     img_contrast = cv2.convertScaleAbs(img_out, alpha=value/100, beta=0)
     img_out = Image.fromarray(img_contrast)
     return frame.image(img_out, width=550)
 
-def sobel_webcam(image, frame, value1, value2):
+def sobel_webcam(image, frame, value1, value2, component):
     
-    # if scale == 'Escala de Cinza':
-    #     img_in = img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2GRAY)
-    # else:
-    #     img_in = img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2RGB)
     img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2GRAY)
-    img_sobelxy = cv2.Sobel(src=img_out, ddepth=cv2.CV_64F, dx=value1, dy=value2, ksize=5)
+
+    if component == 'xy':
+        img_sobelxy = cv2.Sobel(src=img_out, ddepth=cv2.CV_64F, dx=value1, dy=value2, ksize=3)
+
+    elif component == 'x':
+        img_sobelxy = cv2.Sobel(src=img_out, ddepth=cv2.CV_64F, dx=value1, dy=0, ksize=3)
+
+    elif component == 'y':
+        img_sobelxy = cv2.Sobel(src=img_out, ddepth=cv2.CV_64F, dx=0, dy=value2, ksize=3)
+
     img = Image.fromarray(img_sobelxy)
     img_out = img.convert("L")
     return frame.image(img_out, width=550)
 
 def canny_webcam(image, frame, value1, value2):
 
-    # if scale == 'Escala de Cinza':
-    #     img_in = img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2GRAY)
-    # else:
-    #     img_in = img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2RGB)
     img_out = cv2.cvtColor(image.read()[1], cv2.COLOR_BGR2GRAY)
     img_canny = cv2.Canny(img_out, value1, value2)
     img_out = Image.fromarray(img_canny)
@@ -95,8 +84,6 @@ def channel_ycbcr_w(image, frame, channel):
     if channel == 'cr':
         return frame.image(canalcr, width=550)
     
-    
-
 def histogram_fn_w(image):
     def myfunc(x):
         return hasattr(x, 'set_color') and not hasattr(x, 'set_facecolor')
@@ -114,6 +101,5 @@ def histogram_fn_w(image):
     plt.rcParams['ytick.labelsize'] = 5
     plt.grid(False)
 
-    #gray =  cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     plt.hist(image.ravel(), 256, [0,255])
     return st.pyplot(fig, use_container_width=False)

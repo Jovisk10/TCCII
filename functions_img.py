@@ -16,16 +16,20 @@ def threshold_img(image, value):# Função de Limiarização em imagem estática
     return img
 
 def contrast_img(image, value): #Função de Contraste em imagem estática
-    img_contrast = cv.convertScaleAbs(image, alpha=value, beta=0)
+    img_contrast = cv.convertScaleAbs(image, alpha=value)
     return img_contrast
 
 def sobel_img(image, value1, value2, component):
+
     if component == 'x':
-        img_sobel = cv.Sobel(img,cv.CV_64F, value1, 0, ksize=5) 
+        img_sobel = cv.Sobel(src=image, ddepth=cv.CV_64F, dx=value1, dy=0, ksize=3) 
+
     elif component == 'y':
-        img_sobel = cv.Sobel(img,cv.CV_64F, 0, value2, ksize=5) 
+        img_sobel = cv.Sobel(src=image, ddepth=cv.CV_64F, dx=0, dy=value2, ksize=3) 
+
     elif component == 'xy':
-        img_sobel = cv.Sobel(src=image, ddepth=cv.CV_64F, dx=value1, dy=value2, ksize=7)
+        img_sobel = cv.Sobel(src=image, ddepth=cv.CV_64F, dx=value1, dy=value2, ksize=3)
+
     img = Image.fromarray(img_sobel)
     img = img.convert("L")
     return img
@@ -50,7 +54,7 @@ def channel_rgb(image, channel):
 
 def channel_ycbcr(image, channel):
     image = cv.cvtColor(image, cv.COLOR_BGR2YCrCb)
-    canaly, canalcr, canalcb = cv.split(image)
+    canaly, canalcb, canalcr = cv.split(image)
 
     if channel == 'y':
         return canaly
@@ -71,8 +75,8 @@ def histogram_fn(image):
     fig = plt.figure(figsize=(3,3), facecolor='#0E1117')
     ax = plt.axes()
     ax.set_facecolor("#0E1117")
-    plt.xlabel('Níveis de intensidade dos pixels')
-    plt.ylabel('Número de pixels')
+    plt.xlabel('Níveis de intensidade dos pixels', fontsize = 5)
+    plt.ylabel('Número de pixels', fontsize = 5)
 
     for o in fig.findobj(myfunc):
         o.set_color('white')
